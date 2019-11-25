@@ -1,2 +1,5 @@
 .idea
 *.iml
+
+# keycloak local build
+server/temp
