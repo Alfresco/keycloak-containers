@@ -2,18 +2,20 @@
 
 ### Available environment variables:
 # - GIT_REPO
-# - GIT_BRANCH
+# - GIT_BRANCH ('master' will be used if not set)
+# - THEME_VERSION
 # or
 # - KEYCLOAK_DIST
 #
 ### Available parameters:
 # - git_repo
-# - git_branch
+# - git_branch ('master' will be used if not set)
+# - theme_version
 # or
 # - keycloak_dist
 #
 # Example:
-# sh build-keycloak-locally.sh git_repo=Alfresco/myrepo git_branch=test-branch
+# sh build-keycloak-locally.sh git_repo=Alfresco/myrepo git_branch=test-branch theme_version=0.1
 #
 ### Note: ENV variables will take precedence over the passed parameters.
 #
@@ -35,6 +37,9 @@ if [ "$GIT_REPO" != "" ]; then
         GIT_BRANCH="master"
     fi
 
+    THEME_VERSION="${THEME_VERSION:-$theme_version}"
+    export THEME_VERSION="$THEME_VERSION"
+
     # Clone repository
     git clone --depth 1 https://github.com/$GIT_REPO.git -b $GIT_BRANCH keycloak-source
 
@@ -42,7 +47,7 @@ if [ "$GIT_REPO" != "" ]; then
     cd keycloak-source
 
     MASTER_HEAD=$(git log -n1 --format="%H")
-    echo "Keycloak from [build]: $GIT_REPO/$GIT_BRANCH/commit/$MASTER_HEAD"
+    echo "Build Keycloak from: $GIT_REPO/$GIT_BRANCH/commit/$MASTER_HEAD"
 
     mvn -Pdistribution -pl distribution/server-dist -am -Dmaven.test.skip clean install
     # Add Alfresco theme

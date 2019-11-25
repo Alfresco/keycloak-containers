@@ -6,14 +6,13 @@ IMAGE_NAME_WITH_BASE_OS				:=$(IMAGE_NAME)-java-11-openjdk-centos-7
 IMAGE_NAME_WITH_BASE_OS_AND_SHA		:=$(IMAGE_NAME_WITH_BASE_OS)-$(shell git rev-parse HEAD | cut -c1-12)
 export IMAGE_NAME_WITH_BASE_OS_AND_SHA
 
-THEME_VERSION	:=0.1
-export THEME_VERSION
-
 # Alfresco keycloak variables
 KEYCLOAK_DIST	:=https://github.com/Alfresco/keycloak/releases/download/$(KEYCLOAK_VERSION)/keycloak-$(KEYCLOAK_VERSION).zip
 # Dev properties
 GIT_REPO		:=Alfresco/keycloak
-GIT_BRANCH		:=7.0.1/AUTH-328-library-patch
+# 'master' will be used if not set
+GIT_BRANCH		:=
+THEME_VERSION	:=0.1
 
 
 build: download_keycloak build_image tag_push_private cleanup
@@ -23,7 +22,7 @@ download_keycloak:
 
 # Dev time rule
 build_keycloak:
-	@./build-keycloak-locally.sh git_repo=$(GIT_REPO) git_branch=$(GIT_BRANCH) || (echo "Couldn't build keycloak. Make sure you are building with the correct Java version."; rm -rf temp; exit 1)
+	@./build-keycloak-locally.sh git_repo=$(GIT_REPO) git_branch=$(GIT_BRANCH) theme_version=$(THEME_VERSION) || (echo "Couldn't build keycloak. Make sure you are building with the correct Java version."; rm -rf temp; exit 1)
 
 build_image:
 	@echo "Build docker image..."
