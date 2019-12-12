@@ -12,7 +12,7 @@ KEYCLOAK_DIST	:=https://github.com/Alfresco/keycloak/releases/download/$(KEYCLOA
 GIT_REPO		:=Alfresco/keycloak
 # 'master' will be used if not set
 GIT_BRANCH		:=
-THEME_VERSION	:=0.1
+THEME_VERSION	?=0.1
 
 
 build: download_keycloak build_image tag_push_private cleanup
