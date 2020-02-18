@@ -25,8 +25,7 @@ build_keycloak:
 	@./build-keycloak-locally.sh git_repo=$(GIT_REPO) git_branch=$(GIT_BRANCH) theme_version=$(THEME_VERSION) || (echo "Couldn't build keycloak. Make sure you are building with the correct Java version."; rm -rf temp; exit 1)
 
 build_image:
-	@echo "Build docker image..."
-	docker build --force-rm=true --no-cache=true --build-arg KEYCLOAK_VERSION=$(KEYCLOAK_VERSION) -t quay.io/$(IMAGE_NAME_WITH_BASE_OS_AND_SHA) -f Dockerfile .
+	@./build-image.sh
 
 tag_push_private:
 	@echo "Tag and push private docker image..."
