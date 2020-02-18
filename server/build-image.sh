@@ -9,9 +9,9 @@ if [ ! -z "$BRANCH_NAME" -a "$BRANCH_NAME" != "master" -a "$BRANCH_NAME" != "dev
 fi
 
 if [ -z "$EXPIRES_AFTER_LABEL" ]; then
-    echo "Building image $IMAGE_NAME_WITH_BASE_OS_AND_SHA ..."
+    echo "Building image with three tags: '$IMAGE_NAME', '$IMAGE_NAME_WITH_BASE_OS', and '$IMAGE_NAME_WITH_BASE_OS_AND_SHA' ..."
 else
-    echo "Building image $IMAGE_NAME_WITH_BASE_OS_AND_SHA with label: '$EXPIRES_AFTER_LABEL'..."
+    echo "Building image with three tags: '$IMAGE_NAME', '$IMAGE_NAME_WITH_BASE_OS', and '$IMAGE_NAME_WITH_BASE_OS_AND_SHA' with label: '$EXPIRES_AFTER_LABEL'..."
 fi
 
-docker build --force-rm=true --no-cache=true --build-arg KEYCLOAK_VERSION=$KEYCLOAK_VERSION -t quay.io/$IMAGE_NAME_WITH_BASE_OS_AND_SHA -f Dockerfile . $EXPIRES_AFTER_LABEL
+docker build --force-rm=true --no-cache=true --build-arg KEYCLOAK_VERSION=$KEYCLOAK_VERSION -t quay.io/$IMAGE_NAME_WITH_BASE_OS_AND_SHA -t quay.io/$IMAGE_NAME -t quay.io/$IMAGE_NAME_WITH_BASE_OS -f Dockerfile . $EXPIRES_AFTER_LABEL

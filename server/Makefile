@@ -4,7 +4,7 @@ export $(shell sed 's/=.*//' build.properties)
 IMAGE_NAME							:=alfresco/alfresco-identity-service:$(IDENTITY_VERSION)
 IMAGE_NAME_WITH_BASE_OS				:=$(IMAGE_NAME)-java-11-openjdk-centos-7
 IMAGE_NAME_WITH_BASE_OS_AND_SHA		:=$(IMAGE_NAME_WITH_BASE_OS)-$(shell git rev-parse HEAD | cut -c1-12)
-export IMAGE_NAME_WITH_BASE_OS_AND_SHA
+export IMAGE_NAME IMAGE_NAME_WITH_BASE_OS IMAGE_NAME_WITH_BASE_OS_AND_SHA
 
 # Alfresco keycloak variables
 KEYCLOAK_DIST	:=https://github.com/Alfresco/keycloak/releases/download/$(KEYCLOAK_VERSION)/keycloak-$(KEYCLOAK_VERSION).zip
@@ -15,7 +15,7 @@ GIT_BRANCH		:=
 THEME_VERSION	?=0.1
 
 
-build: download_keycloak build_image tag_push_private cleanup
+build: download_keycloak build_image push_private cleanup
 
 download_keycloak:
 	@./build-keycloak-locally.sh keycloak_dist=$(KEYCLOAK_DIST)
@@ -27,10 +27,8 @@ build_keycloak:
 build_image:
 	@./build-image.sh
 
-tag_push_private:
-	@echo "Tag and push private docker image..."
-	docker tag quay.io/$(IMAGE_NAME_WITH_BASE_OS_AND_SHA) quay.io/$(IMAGE_NAME)
-	docker tag quay.io/$(IMAGE_NAME_WITH_BASE_OS_AND_SHA) quay.io/$(IMAGE_NAME_WITH_BASE_OS)
+push_private:
+	@echo "Push private docker image..."
 	@docker push quay.io/$(IMAGE_NAME)
 	@docker push quay.io/$(IMAGE_NAME_WITH_BASE_OS)
 	@docker push quay.io/$(IMAGE_NAME_WITH_BASE_OS_AND_SHA)
