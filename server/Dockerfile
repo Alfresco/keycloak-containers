@@ -1,6 +1,6 @@
-FROM quay.io/alfresco/alfresco-base-java:11.0.1-openjdk-centos-7-72b88c6f1f4c
+FROM quay.io/alfresco/alfresco-base-java:11.0.7-openjdk-centos-7-145f5d28c8ca
 
-ARG KEYCLOAK_VERSION=8.0.1-patch
+ARG KEYCLOAK_VERSION=8.0.1-patch-theme-0.3
 
 ENV JDBC_POSTGRES_VERSION 42.2.5
 ENV JDBC_MYSQL_VERSION 5.1.46
