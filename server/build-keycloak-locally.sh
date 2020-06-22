@@ -56,7 +56,7 @@ if [ "$GIT_REPO" != "" ]; then
     cd ..
     unzip -oq keycloak-source/distribution/server-dist/target/keycloak-*.zip
 
-    mv keycloak-?.?.?* keycloak
+    mv keycloak-* keycloak
 
 else
     echo "Download Keycloak from: $KEYCLOAK_DIST"
@@ -68,5 +68,5 @@ else
     curl -sSLO $KEYCLOAK_DIST
     unzip -oq keycloak-*.zip
     rm keycloak-*.zip
-    mv keycloak-?.?.?* keycloak
+    mv keycloak-* keycloak
 fi
