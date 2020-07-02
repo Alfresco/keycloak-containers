@@ -44,13 +44,13 @@ jobs:
         - make build_keycloak build_image push_private cleanup
         - travis_fold end build_keycloak_server
     - name: "Build from distribution zip and Push images"
-      if: (branch = master) AND type != pull_request
+      if: (branch = master) AND type != pull_request AND (env(RELEASE_ENABLED) = true)
       script:
         - cd server
         - make download_keycloak build_image push_private cleanup
     - stage: release
       name: "Release keycloak-containers in GitHub"
-      if: (branch = master) AND type != pull_request AND commit_message !~ /\[no-release\]/
+      if: (branch = master) AND type != pull_request AND (env(RELEASE_ENABLED) = true AND commit_message !~ /\[no-release\]/)
       script:
         - git config user.email "${GIT_EMAIL}"
         - git config user.name "${GIT_USERNAME}"
