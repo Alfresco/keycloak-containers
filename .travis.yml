@@ -34,12 +34,16 @@ jobs:
   include:
     - stage: "Build"
       name: "Build from develop branch"
-      if: fork = false AND (branch = develop) AND type != pull_request
+      if: (branch = develop) AND type != pull_request
+      before_script:
+        - travis_fold start build_keycloak_server
       script:
         - cd server
         - make build_keycloak
+      after_script:
+        - travis_fold end build_keycloak_server
     - name: "Build from distribution zip"
-      if: fork = false AND (branch = master) AND type != pull_request
+      if: (branch = master) AND type != pull_request
       script:
         - cd server
         - make download_keycloak
@@ -50,7 +54,7 @@ jobs:
         - make build_image push_private cleanup
     - stage: release
       name: "Release keycloak-containers in GitHub"
-      if: fork = false AND (branch = master) AND type != pull_request AND commit_message !~ /\[no-release\]/
+      if: (branch = master) AND type != pull_request AND commit_message !~ /\[no-release\]/
       script:
         - git config user.email "${GIT_EMAIL}"
         - git config user.name "${GIT_USERNAME}"
