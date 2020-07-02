@@ -3,7 +3,7 @@
 EXPIRE_AFTER="${EXPIRE_AFTER:-2w}"
 
 EXPIRES_AFTER_LABEL=""
-if [ ! -z "$BRANCH_NAME" -a "$BRANCH_NAME" != "master" -a "$BRANCH_NAME" != "8.0.N" ]; then
+if [ ! -z "$BRANCH_NAME" -a "$BRANCH_NAME" != "master" -a "$BRANCH_NAME" != "develop" ]; then
     # Add expiration label so it can be deleted by quay automatically
     EXPIRES_AFTER_LABEL="--label quay.expires-after=$EXPIRE_AFTER"
 fi

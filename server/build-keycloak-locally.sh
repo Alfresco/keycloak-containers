@@ -55,7 +55,7 @@ if [ "$GIT_REPO" != "" ]; then
 
     cd ..
     unzip -oq keycloak-source/distribution/server-dist/target/keycloak-*.zip
-
+    rm -rf keycloak-source
     mv keycloak-* keycloak
 
 else
