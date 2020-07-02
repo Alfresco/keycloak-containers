@@ -49,9 +49,9 @@ jobs:
         - docker login quay.io -u ${QUAY_USERNAME} -p ${QUAY_PASSWORD}
         - make build_image push_private cleanup
     - stage: release
-        name: "Release keycloak-containers in GitHub"
-        if: fork = false AND (branch = master) AND type != pull_request AND commit_message !~ /\[no-release\]/
-        script:
-          - git config user.email "${GIT_EMAIL}"
-          - git config user.name "${GIT_USERNAME}"
-          - cd server && ./release.sh
+      name: "Release keycloak-containers in GitHub"
+      if: fork = false AND (branch = master) AND type != pull_request AND commit_message !~ /\[no-release\]/
+      script:
+        - git config user.email "${GIT_EMAIL}"
+        - git config user.name "${GIT_USERNAME}"
+        - cd server && ./release.sh
