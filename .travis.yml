@@ -30,28 +30,24 @@ stages:
   - name: Build
   - name: Release
 
+before_script:
+  - echo "${QUAY_PASSWORD}" | docker login quay.io --username ${QUAY_USERNAME} --password-stdin
+
 jobs:
   include:
     - stage: "Build"
-      name: "Build from develop branch"
+      name: "Build from develop branch and Push images"
       if: (branch = develop) AND type != pull_request
-      before_script:
-        - travis_fold start build_keycloak_server
       script:
         - cd server
-        - make build_keycloak
-      after_script:
+        - travis_fold start build_keycloak_server
+        - make build_keycloak build_image push_private cleanup
         - travis_fold end build_keycloak_server
-    - name: "Build from distribution zip"
+    - name: "Build from distribution zip and Push images"
       if: (branch = master) AND type != pull_request
       script:
         - cd server
-        - make download_keycloak
-    - name: "Build and Push images"
-      script:
-        - cd server
-        - docker login quay.io -u ${QUAY_USERNAME} -p ${QUAY_PASSWORD}
-        - make build_image push_private cleanup
+        - make download_keycloak build_image push_private cleanup
     - stage: release
       name: "Release keycloak-containers in GitHub"
       if: (branch = master) AND type != pull_request AND commit_message !~ /\[no-release\]/
