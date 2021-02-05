@@ -1,4 +1,4 @@
-FROM quay.io/alfresco/alfresco-base-java:11.0.7-openjdk-centos-7-9448dd21de19
+FROM alfresco/alfresco-base-java:11.0.10-openjdk-centos-8@sha256:0728952f0e8e17a81e12650f7416ae6f42e7d30a88532d1efaaac9f02260806f
 
 ARG KEYCLOAK_VERSION=11.0.0-alfresco-001
 
