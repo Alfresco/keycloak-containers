@@ -17,7 +17,7 @@ before_cache:
 
 env:
   global:
-    - MAVEN_SKIP_RC=true
+#    - MAVEN_SKIP_RC=true
     - MAVEN_OPTS="-Xms512m -Xmx1536m"
     - THEME_VERSION=0.3.1
 
