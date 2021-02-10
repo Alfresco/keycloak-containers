@@ -210,7 +210,7 @@ If you used a name for the Oracle instance other than `oracle` you need to speci
 
 ### Microsoft SQL Server Example
 
-#### Create a user define network
+#### Create a user defined network
 
     docker network create keycloak-network
 
@@ -305,6 +305,17 @@ Or you can volume the entire directory to supply a directory of scripts.
 
 Note that when combining the approach of extending the image and `volume`ing the entire directory, the volume will override
 all scripts shipped in the image.
+
+## Start a Keycloak instance with custom command-line options
+
+Additional server startup options (extension of JAVA_OPTS) can be configured using the `JAVA_OPTS_APPEND` environment variable. An use-case for this is to enable extra [profile features](https://www.keycloak.org/docs/latest/server_installation/#profiles).
+
+### Example
+
+Enable _upload_script_ profile:
+
+    docker run -e JAVA_OPTS_APPEND="-Dkeycloak.profile.feature.upload_scripts=enabled" jboss/keycloak
+
 
 ## Clustering
 
@@ -423,7 +434,7 @@ When running Keycloak behind a proxy, you will need to enable proxy address forw
 
 ### Setting up TLS(SSL)
 
-Keycloak image allows you to specify both a private key and a certificate for serving HTTPS. In that case you need to provide two files:
+Keycloak image allows you to specify both a private key and a certificate for serving HTTPS over port 8443. In that case you need to provide two files:
 
 * tls.crt - a certificate
 * tls.key - a private key
@@ -450,6 +461,20 @@ The special value `all` enables all statistics.
 
 Once enabled, you should see the metrics values changing on the `/metrics` endpoint for the management endpoint.
 
+## Debugging
+
+To attach a Java debugger, set these environment variables:
+
+* `DEBUG=true`: Now the `DEBUG_PORT` will listen
+* `DEBUG_PORT='*:8787'`: The port that Keycloak listens to for connections from a debugger.
+   By default, [JDK 9+](https://bugs.openjdk.java.net/browse/JDK-8175050) only listens on localhost, so you'll want the `*:8787` syntax to make it listen for connections
+   from all hosts. Remember to shell-quote the `*` character though, especially under `zsh`.
+
+In addition to setting `DEBUG=true` and `DEBUG_PORT='*:8787'`, you'll
+want to publish the debug port as well, as in:
+
+    docker run -e DEBUG=true -e DEBUG_PORT='*:8787' -p 8080:8080 -p '8787:8787' jboss/keycloak
+
 ## Other details
 
 This image extends the [`registry.access.redhat.com/ubi8-minimal`](https://access.redhat.com/containers/?tab=overview#/registry.access.redhat.com/ubi8-minimal) base image and adds Keycloak and its dependencies on top of it.
@@ -475,3 +500,8 @@ For Keycloak built locally you need to first build the distribution then serve i
 
     cd $KEYCLOAK_CHECKOUT/distribution/server-dist/target
     python -m SimpleHTTPServer 8000
+
+## Docker start and stop
+
+This image supports `docker start` and `docker stop` commands, but will not detect any changes in configuration.
+If you would like to reconfigure Keycloak, you must create a new container.
