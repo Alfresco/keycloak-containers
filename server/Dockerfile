@@ -14,7 +14,7 @@ ENV LANG en_US.UTF-8
 
 USER root
 
-RUN microdnf update -y && microdnf install -y glibc-langpack-en gzip hostname java-11-openjdk-headless openssl tar which && microdnf clean all
+RUN microdnf update -y && microdnf install -y glibc-langpack-en hostname java-11-openjdk-headless openssl tar which && microdnf clean all
 
 COPY temp/keycloak /opt/jboss/keycloak
 ADD tools /opt/jboss/tools
