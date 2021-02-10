@@ -21,10 +21,10 @@ env:
     - MAVEN_OPTS="-Xms512m -Xmx1536m"
     - THEME_VERSION=0.3.1
 
-#branches:
-#  only:
-#    - master
-#    - develop
+branches:
+  only:
+    - master
+    - develop
 
 stages:
   - name: Build
@@ -50,7 +50,7 @@ jobs:
         - make download_keycloak build_image push_private cleanup
     - stage: release
       name: "Release keycloak-containers in GitHub"
-      if: (branch = master) AND type != pull_request AND (env(RELEASE_ENABLED) = true AND commit_message !~ /\[no-release\]/)
+      if: (branch = master) AND type != pull_request AND ((env(RELEASE_ENABLED) = true) AND commit_message !~ /\[no-release\]/)
       script:
         - git config user.email "${GIT_EMAIL}"
         - git config user.name "${GIT_USERNAME}"
