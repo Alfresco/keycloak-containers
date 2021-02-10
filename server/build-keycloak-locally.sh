@@ -15,7 +15,7 @@
 # - keycloak_dist
 #
 # Example:
-# sh build-keycloak-locally.sh git_repo=Alfresco/myrepo git_branch=test-branch theme_version=0.1
+# sh build-keycloak-locally.sh git_repo=Alfresco/myrepo git_branch=test-branch theme_version=0.3.2
 #
 ### Note: ENV variables will take precedence over the passed parameters.
 #
