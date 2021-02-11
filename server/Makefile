@@ -2,7 +2,7 @@ include build.properties
 export $(shell sed 's/=.*//' build.properties)
 
 IMAGE_NAME							:=alfresco/alfresco-identity-service:$(IDENTITY_VERSION)
-IMAGE_NAME_WITH_BASE_OS				:=$(IMAGE_NAME)-java-11-openjdk-centos-7
+IMAGE_NAME_WITH_BASE_OS				:=$(IMAGE_NAME)-java-11-openjdk-ubi8-minimal
 IMAGE_NAME_WITH_BASE_OS_AND_SHA		:=$(IMAGE_NAME_WITH_BASE_OS)-$(shell git rev-parse HEAD | cut -c1-12)
 export IMAGE_NAME
 export IMAGE_NAME_WITH_BASE_OS
